@@ -1,0 +1,23 @@
+{% extends 'users/base.html' %}
+
+{% block title %}
+    Edit Student
+{% endblock %}
+
+{% block content %}
+
+    <h1>Edit Student</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Update Student
+        </button>
+
+    </form>
+
+{% endblock %}
