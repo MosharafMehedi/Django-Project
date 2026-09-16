@@ -6,4 +6,7 @@ urlpatterns = [
     path('students/create/', views.create_student, name='create_student'),
     path('students/<int:id>/edit/', views.edit_student, name='edit_student'),
     path('students/<int:id>/delete/', views.delete_student, name='delete_student'),
+    path('register/',views.RegisterView.as_view(),name='register'),
+    path('login/', views.UserLoginView.as_view(), name='login'),
+    path('logout/', views.user_logout, name='logout'),
 ]

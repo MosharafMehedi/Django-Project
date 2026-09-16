@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 from .models import Student
 from .forms import StudentForm
+from .forms import StudentForm, RegisterForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import logout
 
 
 def home(request):
@@ -86,3 +94,38 @@ def delete_student(request, id):
         return redirect('home')
 
     return redirect('home')
+
+class RegisterView(CreateView):
+
+    form_class = RegisterForm
+    template_name = 'users/register.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+
+        response = super().form_valid(form)
+
+        login(self.request, self.object)
+
+        messages.success(
+            self.request,
+            'Registration successful!'
+        )
+
+        return response
+class UserLoginView(LoginView):
+
+    template_name = 'users/login.html'
+
+    redirect_authenticated_user = True
+
+def user_logout(request):
+
+    logout(request)
+
+    messages.success(
+        request,
+        'You have been logged out.'
+    )
+
+    return redirect('login')
